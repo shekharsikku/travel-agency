@@ -1,6 +1,14 @@
+import type { Route } from "./+types/admin-layout";
 import { Outlet } from "react-router";
 import { SidebarComponent } from "@syncfusion/ej2-react-navigations"
 import { MobileSidebar, NavItems } from "~/components";
+
+export function meta({ }: Route.MetaArgs) {
+  return [
+    { title: "Admin - Travel Agency" },
+    { name: "description", content: "Travel Agency Platform" },
+  ];
+}
 
 const AdminLayout = () => {
   return (
