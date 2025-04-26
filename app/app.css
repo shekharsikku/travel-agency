@@ -275,7 +275,7 @@
     }
   }
   .link-logo {
-    @apply flex items-center gap-1.5 py-10 border-b border-light-100;
+    @apply flex items-center gap-1.5 py-10 border-b border-light-100 ml-2;
     h1 {
       @apply text-base md:text-2xl font-bold text-dark-100;
     }
