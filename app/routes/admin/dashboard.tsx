@@ -15,6 +15,13 @@ import { parseTripData } from "~/lib/utils";
 import { getAllTrips } from "~/appwrite/trips";
 import { getTripsByTravelStyle, getUserGrowthPerDay, getUsersAndTripsStats } from "~/appwrite/dashboard";
 
+export function meta({ }: Route.MetaArgs) {
+  return [
+    { title: "Dashboard - Tourvisto" },
+    { name: "description", content: "Travel Agency Platform" },
+  ];
+}
+
 export const clientLoader = async () => {
   const [
     user,

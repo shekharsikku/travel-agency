@@ -5,6 +5,13 @@ import { getAllTrips, getTripById } from "~/appwrite/trips";
 import { cn, getFirstWord, parseTripData } from "~/lib/utils";
 import { ChipDirective, ChipListComponent, ChipsDirective } from "@syncfusion/ej2-react-buttons";
 
+export function meta({ }: Route.MetaArgs) {
+  return [
+    { title: "Details - Tourvisto" },
+    { name: "description", content: "Travel Agency Platform" },
+  ];
+}
+
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { tripId } = params;
   if (!tripId) throw new Error('Trip ID is required');

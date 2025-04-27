@@ -8,6 +8,13 @@ import { getAllTrips } from "~/appwrite/trips";
 import { parseTripData } from "~/lib/utils";
 import { useState } from "react";
 
+export function meta({ }: Route.MetaArgs) {
+  return [
+    { title: "Trips - Tourvisto" },
+    { name: "description", content: "Travel Agency Platform" },
+  ];
+}
+
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const limit = 8;
   const url = new URL(request.url);

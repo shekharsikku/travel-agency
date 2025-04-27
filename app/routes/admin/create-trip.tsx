@@ -10,6 +10,13 @@ import { account } from "~/appwrite/client";
 import { useNavigate } from "react-router";
 import { useState } from "react";
 
+export function meta({ }: Route.MetaArgs) {
+  return [
+    { title: "Create - Tourvisto" },
+    { name: "description", content: "Travel Agency Platform" },
+  ];
+}
+
 export const loader = async () => {
   const response = await fetch('https://restcountries.com/v3.1/all');
   const data = await response.json();

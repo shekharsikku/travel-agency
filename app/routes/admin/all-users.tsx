@@ -4,6 +4,13 @@ import { Header } from '~/components';
 import { cn, formatDate } from "~/lib/utils";
 import { getAllUsers } from "~/appwrite/auth";
 
+export function meta({ }: Route.MetaArgs) {
+  return [
+    { title: "Users - Tourvisto" },
+    { name: "description", content: "Travel Agency Platform" },
+  ];
+}
+
 export const clientLoader = async () => {
   const { users, total } = await getAllUsers(10, 0);
   return { users, total };
