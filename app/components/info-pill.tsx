@@ -1,6 +1,9 @@
-const InfoPill = () => {
+const InfoPill = ({ text, image }: InfoPillProps) => {
   return (
-    <div className="">InfoPill</div>
+    <figure className="info-pill">
+      <img src={image} alt={text} />
+      <figcaption>{text}</figcaption>
+    </figure>
   )
 }
 
