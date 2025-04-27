@@ -4,3 +4,4 @@ export { default as Header } from "./header";
 export { default as StatsCard } from "./stats-card";
 export { default as TripCard } from "./trip-card";
 export { default as InfoPill } from "./info-pill";
+export { default as RootNavbar } from "./root-navbar";
