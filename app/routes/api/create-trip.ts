@@ -1,4 +1,8 @@
-import { type ActionFunctionArgs, data } from "react-router";
+import {
+  type ActionFunctionArgs,
+  type LoaderFunctionArgs,
+  data,
+} from "react-router";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { parseMarkdownToJson, parseTripData } from "~/lib/utils";
 import { appwriteConfig, database } from "~/appwrite/client";
@@ -102,4 +106,8 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   } catch (error: any) {
     console.error("Error generating travel plan:", error);
   }
+};
+
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  return data({ error: "Method Not Allowed!", status: 405 });
 };
