@@ -8,23 +8,60 @@ import {
   Tooltip
 } from "@syncfusion/ej2-react-charts";
 import { ColumnDirective, ColumnsDirective, GridComponent, Inject } from "@syncfusion/ej2-react-grids";
-import { getUser } from "~/appwrite/auth";
+import { getUser, getAllUsers } from "~/appwrite/auth";
 import { Header, StatsCard, TripCard } from '~/components';
 import { tripXAxis, tripYAxis, userXAxis, userYAxis } from "~/constants";
-import { dashboardStats, allUsers, allTrips } from '~/constants/dummy';
+import { parseTripData } from "~/lib/utils";
+import { getAllTrips } from "~/appwrite/trips";
+import { getTripsByTravelStyle, getUserGrowthPerDay, getUsersAndTripsStats } from "~/appwrite/dashboard";
 
 export const clientLoader = async () => {
-  const [user] = await Promise.all([await getUser(),]);
-  return { user };
+  const [
+    user,
+    dashboardStats,
+    trips,
+    userGrowth,
+    tripsByTravelStyle,
+    allUsers,
+  ] = await Promise.all([
+    await getUser(),
+    await getUsersAndTripsStats(),
+    await getAllTrips(4, 0),
+    await getUserGrowthPerDay(),
+    await getTripsByTravelStyle(),
+    await getAllUsers(4, 0),
+  ])
+
+  const allTrips = trips.allTrips.map(({ $id, tripDetails, imageUrls }) => ({
+    id: $id,
+    ...parseTripData(tripDetails),
+    imageUrls: imageUrls ?? []
+  }))
+
+  const mappedUsers: UsersItineraryCount[] = allUsers.users.map((user) => ({
+    imageUrl: user.imageUrl,
+    name: user.name,
+    count: user.itineraryCount ?? Math.floor(Math.random() * 10),
+  }))
+
+  return {
+    user,
+    dashboardStats,
+    allTrips,
+    userGrowth,
+    tripsByTravelStyle,
+    allUsers: mappedUsers
+  }
 }
 
 const Dashboard = ({ loaderData }: Route.ComponentProps) => {
   const user = loaderData.user as User | null;
+  const { dashboardStats, allTrips, userGrowth, tripsByTravelStyle, allUsers } = loaderData;
 
   const trips = allTrips.map((trip) => ({
     imageUrl: trip.imageUrls[0],
     name: trip.name,
-    interest: trip.itinerary,
+    interest: trip.interests,
   }))
 
   const usersAndTrips = [
@@ -83,7 +120,7 @@ const Dashboard = ({ loaderData }: Route.ComponentProps) => {
               name={trip.name!}
               imageUrl={trip.imageUrls[0]}
               location={trip.itinerary?.[0]?.location ?? ''}
-              tags={[...trip.tags!, trip.travelStyle!]}
+              tags={[...trip.interests!, trip.travelStyle!]}
               price={trip.estimatedPrice!}
             />
           ))}
@@ -102,7 +139,7 @@ const Dashboard = ({ loaderData }: Route.ComponentProps) => {
 
           <SeriesCollectionDirective>
             <SeriesDirective
-              // dataSource={userGrowth}
+              dataSource={userGrowth}
               xName="day"
               yName="count"
               type="Column"
@@ -112,7 +149,7 @@ const Dashboard = ({ loaderData }: Route.ComponentProps) => {
             />
 
             <SeriesDirective
-              // dataSource={userGrowth}
+              dataSource={userGrowth}
               xName="day"
               yName="count"
               type="SplineArea"
@@ -134,7 +171,7 @@ const Dashboard = ({ loaderData }: Route.ComponentProps) => {
 
           <SeriesCollectionDirective>
             <SeriesDirective
-              // dataSource={tripsByTravelStyle}
+              dataSource={tripsByTravelStyle}
               xName="travelStyle"
               yName="count"
               type="Column"
