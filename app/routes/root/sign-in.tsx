@@ -6,7 +6,7 @@ import { account } from "~/appwrite/client";
 
 export function meta({ }: Route.MetaArgs) {
   return [
-    { title: "Sign In - Travel Agency" },
+    { title: "Sign In - Tourvisto" },
     { name: "description", content: "Travel Agency Platform" },
   ];
 }

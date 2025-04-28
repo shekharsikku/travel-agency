@@ -427,7 +427,7 @@
     @apply text-[14px] md:text-[18px] leading-[14px] md:leading-[16px] font-bold;
   }
   .p-18-semibold {
-    @apply text-[14px] md:text-[18px] leading-[14px] md:leading-[16px] font-semibold;
+    @apply text-sm md:text-base leading-3.5 md:leading-4 font-semibold;
   }
   .p-18-regular {
     @apply text-[14px] md:text-[18px] leading-[14px] md:leading-[16px] font-normal;
