@@ -6,6 +6,7 @@ import {
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { parseMarkdownToJson, parseTripData } from "~/lib/utils";
 import { appwriteConfig, database } from "~/appwrite/client";
+import { createProduct } from "~/lib/stripe";
 import { ID } from "appwrite";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -98,9 +99,35 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     const tripDetail = parseTripData(tripResult.tripDetails) as Trip;
     const tripPrice = parseInt(tripDetail.estimatedPrice.replace("$", ""), 10);
 
-    // create payment and update payment link in collection remains
+    /** create payment and update payment link in collection remains */
 
-    console.log({ textResult, tripDetails, imageUrls, tripPrice, tripResult });
+    const paymentLink = await createProduct(
+      tripDetail.name,
+      tripDetail.description,
+      imageUrls,
+      tripPrice,
+      tripResult.$id
+    );
+
+    await database.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.tripCollectionId,
+      tripResult.$id,
+      {
+        paymentLink: paymentLink.url,
+      }
+    );
+
+    if (import.meta.env.DEV) {
+      console.log({
+        textResult,
+        tripDetails,
+        imageUrls,
+        tripPrice,
+        tripResult,
+        paymentLink
+      });
+    }
 
     return data({ id: tripResult.$id });
   } catch (error: any) {
