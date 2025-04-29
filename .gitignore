@@ -12,8 +12,11 @@ node_modules
 # logs and other files
 *.log
 *.local
+*.development
+*.production
 *.tsbuildinfo
 vite-env.d.ts
+vite.config.ts.timestamp*.mjs
 
 # react router
 /.react-router/

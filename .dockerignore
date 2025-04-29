@@ -1,4 +1,24 @@
-.react-router
-build
+# node_modules
 node_modules
-README.md
+
+# editor directories
+.idea
+.vscode
+.vercel
+
+# environment variables
+.env
+
+# logs and other files
+_.log
+_.local
+_.development
+_.production
+_.tsbuildinfo
+vite-env.d.ts
+vite.config.ts.timestamp_.mjs
+
+# react router
+/.react-router/
+/build/
+/test/
