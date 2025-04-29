@@ -7,4 +7,5 @@ export default defineConfig({
   plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
   ssr: { noExternal: [/@syncfusion/] },
   server: { port: 3000 },
+  build: { chunkSizeWarningLimit: 1000 },
 });
