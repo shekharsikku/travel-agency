@@ -538,3 +538,10 @@ body {
   top: 45px;
   right: 40px;
 }
+
+/* hide scrollbar */
+
+::-webkit-scrollbar {
+  display: none;
+  scrollbar-width: none;
+}
